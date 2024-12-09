@@ -8,8 +8,16 @@
     <link rel="stylesheet" href="build/css/app.css">
 </head>
 <body>
+    <div class="contenedor-app">
+        <div class="imagen">
 
-    <?php echo $contenido; ?>
+        </div>
+        <div class="app">
+            <h1 class="nombre-pagina"><?php echo $titulo ?></h1>
+            <p class="descripcion-pagina"><?php echo $descripcion ?></p>
+            <?php echo $contenido; ?>
+        </div>
+    </div>
             
 </body>
 </html>

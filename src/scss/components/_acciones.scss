@@ -1,0 +1,15 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.acciones {
+    display: flex;
+    justify-content: space-between;
+    a {
+        color: v.$blanco;
+        font-weight: v.$bold;
+
+        @include m.desktop { 
+            font-size: 1.8rem;
+        } 
+    }
+}

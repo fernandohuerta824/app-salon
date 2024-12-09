@@ -6,7 +6,10 @@ use MVC\Router;
 
 class LoginController {
     public static function login(Router $router) {
-        $router->render('', ['titulo' => 'Login']);
+        $router->render('auth/login', [
+            'titulo' => 'Login',
+            'descripcion' => 'Inicia Sesion con tus datos'
+        ]);
     }
 
     public static function logout(Router $router) {
@@ -14,7 +17,10 @@ class LoginController {
     }
 
     public static function olvide(Router $router) {
-        $router->render('', ['titulo' => 'Olvidar Contraseña']);
+        $router->render('auth/olvide', [
+            'titulo' => 'Olvidar Contraseña',
+            'descripcion' => 'Ingresa tu correo para mandarte instrucciones'
+        ]);
     }
 
     public static function recuperar(Router $router) {
@@ -22,6 +28,9 @@ class LoginController {
     }
 
     public static function crearCuenta(Router $router) {
-        $router->render('', ['titulo' => 'Crear Cuenta']);
+        $router->render('auth/crear-cuenta', [
+            'titulo' => 'Crear Cuenta',
+            'descripcion' => 'Llena los datos para crear una nueva cuenta'
+        ]);
     }
 }
