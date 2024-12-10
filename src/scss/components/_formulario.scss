@@ -31,3 +31,35 @@
         } 
     }
 }
+.alerta {
+    font-size: 1.8rem;
+    font-weight: v.$bold;
+    text-align: center;
+    margin: 3rem 0 1rem 0;
+    
+    @include m.desktop { 
+       text-align: left; 
+    } 
+
+    &.error {
+        color: v.$rojo;
+    }
+
+    &.exito {
+        color: v.$verde;
+    }
+}
+
+.mensaje {
+    font-weight: v.$bold;
+    text-align: center;
+    padding: 1rem;
+    &.error {
+        background-color: v.$rojo;
+    }
+
+    &.exito {
+        background-color: v.$verde;
+    }
+}
+
