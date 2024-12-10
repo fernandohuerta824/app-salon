@@ -98,7 +98,7 @@ class LoginController {
             }
 
         } else {
-            $mensaje = 'Token No Valido';
+            header('Location: /');
         }
         $router->render('auth/confirmar-cuenta', [
             'titulo' => 'Confirmar Cuenta',
