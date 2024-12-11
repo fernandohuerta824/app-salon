@@ -71,9 +71,43 @@ class LoginController {
         if($_SESSION['login']) {
             return static::redireccionar();
         }
+
+        $auth = new Usuario();
+        $errores = [];
+        $mensaje = null;
+        $exito = null;
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth->sincronizar($_POST);
+            $errores = $auth->validarEmail();
+
+            if(!count($errores)) {
+                try {
+                    $usuario = Usuario::where('email', $auth->getEmail());
+                    $exito = true;
+                    $mensaje = 'Si el email existe en nuestros registros y la cuenta esta confirmada, recibirás un enlace a tu email para restablecer tu contraseña';
+                    if($usuario && $usuario->getConfirmado()) {
+                       $usuario->crearToken();
+                       $usuario->guardar();
+                       
+                       $email = new Email($usuario->getEmail(), $usuario->getNombre() . ' ' . $usuario->getApellido(), $usuario->getToken());
+                       $email->enviarRecuperarPass();
+                    }
+                } catch (\Throwable $th) {
+                    $exito = false;
+                    $mensaje = 'Algo salio mal, intente de nuevo, si el problema persiste contacte a soporte';
+                }
+
+                
+            }
+        }
+
         $router->render('auth/olvide', [
             'titulo' => 'Olvidar Contraseña',
-            'descripcion' => 'Ingresa tu correo para mandarte instrucciones'
+            'descripcion' => 'Ingresa tu correo para mandarte instrucciones',
+            'errores' => $errores,
+            'email' => $auth->getEmail(),
+            'exito' => $exito,
+            'mensaje' => $mensaje
         ]);
     }
 
