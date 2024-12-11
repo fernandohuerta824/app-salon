@@ -147,6 +147,8 @@ class LoginController {
         }
         $token = s($_GET['token']) ? ($_GET['token']) :  'cualquierCosa';
         $usuario = Usuario::where('token', $token);
+        if($usuario->getConfirmado())
+            return static::redireccionar();
         $mensaje = '';
         $exito = false;
         if($usuario) {
