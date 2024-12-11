@@ -81,6 +81,12 @@ class Usuario extends ActiveRecord {
         return self::$errores;
     }
 
+    public function validarPassword(): array {
+        if(strlen($this->password) < 8)
+            self::$errores['password'] = 'La contraseña debe tener al menos 8 caracteres';  
+        return self::$errores;
+    }
+
     public function hashPassword() {
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
     }

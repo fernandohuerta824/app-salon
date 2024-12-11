@@ -96,8 +96,6 @@ class LoginController {
                     $exito = false;
                     $mensaje = 'Algo salio mal, intente de nuevo, si el problema persiste contacte a soporte';
                 }
-
-                
             }
         }
 
@@ -116,7 +114,46 @@ class LoginController {
         if($_SESSION['login']) {
             return static::redireccionar();
         }
-        $router->render('', ['titulo' => 'Recuperar Contraseña']);
+        $token = s($_GET['token']) ? ($_GET['token']) :  'cualquierCosa';
+        try {
+            $usuario = Usuario::where('token', $token);
+        } catch (\Throwable $th) {
+            //Validar mas tarda
+            header('Location: /error');
+        }
+        
+
+        $errores = [];
+        $mensaje = null;
+        $exito = null;
+        if(!$usuario || !$usuario->getConfirmado())  
+            return header('Location: /');
+        
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $password = new Usuario($_POST);
+            $errores = $password->validarPassword();
+            // debug($password);
+            if(!count($errores)) {
+                $usuario->setPassword($password->getPassword());
+                $usuario->hashPassword();
+                $usuario->setToken('');
+                try {
+                    $usuario->guardar();
+                    return header('Location: /');
+                } catch (\Throwable $th) {
+                    $mensaje = 'Algo salio mal, intente de nuevo, si el problema persiste contacte a soporte';
+                    $exito = true;
+                }
+            }
+        }
+        
+        $router->render('auth/recuperar-password', [
+            'titulo' => 'Recuperar Contraseña',
+            'descripcion' => 'Coloca tu nueva contraseña',
+            'errores' => $errores,
+            'mensaje' => $mensaje,
+            'exito' => $exito
+        ]); 
     }
 
     public static function crearCuenta(Router $router) {
