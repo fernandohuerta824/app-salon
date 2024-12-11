@@ -1,4 +1,9 @@
 <form class="formulario" action="/" method="post">
+    <?php include __DIR__ . '/../template/mensaje.php' ?>
+
+    <?php if(isset($errores['email'])) : ?>
+        <p class="alerta error"><?php echo $errores['email'] ?></p>
+    <?php endif ?>
     <div class="campo">
         <label for="email">Email: </label>
         <input 
@@ -6,9 +11,13 @@
             name="email"
             id="email"
             placeholder="Ingresa tu email"
+            value="<?php echo $usuario->getEmail(); ?>"
         >
     </div>
 
+    <?php if(isset($errores['password'])) : ?>
+        <p class="alerta error"><?php echo $errores['password'] ?></p>
+    <?php endif ?>
     <div class="campo">
         <label for="password">Contraseña: </label>
         <input 

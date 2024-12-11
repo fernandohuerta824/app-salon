@@ -7,18 +7,70 @@ use Model\Usuario;
 use MVC\Router;
 
 class LoginController {
+    private static function redireccionar() {
+        if($_SESSION['admin']){
+            header('Location: /admin');
+        } else {
+            header('Location: /cita');
+        }
+    }
+
     public static function login(Router $router) {
+        session_start();
+        if($_SESSION['login']) {
+            return static::redireccionar();
+        }
+        $auth = new Usuario();
+        $exito = null;
+        $mensaje = null;
+        $errores = [];
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth->sincronizar($_POST);
+            $errores = $auth->validarDatosLogin();
+            
+            if(!count($errores)) {
+                $usuario = Usuario::where('email', $_POST['email']);
+                
+                
+                if(!$usuario || !$usuario->comprobarAcceso($auth->getPassword())) {
+                    $mensaje = 'Email o contraseña incorrectos, o cuenta no confirmada (revisa tu email)';
+                    $exito = false;
+                } else {
+                    session_start();
+                    $_SESSION['id'] = $usuario->getId();
+                    $_SESSION['nombre'] = $usuario->getNombre();
+                    $_SESSION['email'] = $usuario->getEmail();
+                    $_SESSION['login'] = true;
+                    $_SESSION['admin'] = $usuario->getAdmin();
+
+                    static::redireccionar();
+                }
+            }
+        }
+
         $router->render('auth/login', [
             'titulo' => 'Login',
-            'descripcion' => 'Inicia Sesion con tus datos'
+            'descripcion' => 'Inicia Sesion con tus datos',
+            'usuario' => $auth,
+            'exito' => $exito,
+            'mensaje' => $mensaje,
+            'errores' => $errores
         ]);
     }
 
     public static function logout(Router $router) {
+        session_start();
+        if(!$_SESSION['login']) {
+            return static::redireccionar();
+        }
         $router->render('', ['titulo' => 'Logout']);
     }
 
     public static function olvide(Router $router) {
+        session_start();
+        if($_SESSION['login']) {
+            return static::redireccionar();
+        }
         $router->render('auth/olvide', [
             'titulo' => 'Olvidar Contraseña',
             'descripcion' => 'Ingresa tu correo para mandarte instrucciones'
@@ -26,10 +78,18 @@ class LoginController {
     }
 
     public static function recuperar(Router $router) {
+        session_start();
+        if($_SESSION['login']) {
+            return static::redireccionar();
+        }
         $router->render('', ['titulo' => 'Recuperar Contraseña']);
     }
 
     public static function crearCuenta(Router $router) {
+        session_start();
+        if($_SESSION['login']) {
+            return static::redireccionar();
+        }
         $usuario = new Usuario();
         $errores = [];
         $mensaje = '';
@@ -81,6 +141,10 @@ class LoginController {
     }
 
     public static function confirmarCuenta(Router $router) {
+        session_start();
+        if($_SESSION['login']) {
+            return static::redireccionar();
+        }
         $token = s($_GET['token']) ? ($_GET['token']) :  'cualquierCosa';
         $usuario = Usuario::where('token', $token);
         $mensaje = '';

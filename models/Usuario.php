@@ -49,7 +49,7 @@ class Usuario extends ActiveRecord {
         if($this->where('telefono', $this->telefono))
             self::$errores['telefono'] = 'El telefono ya esta registrado';   
 
-        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL))
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL))
             self::$errores['email'] = 'El email debe ser valido'; 
         
         if($this->where('email', $this->email))
@@ -58,6 +58,20 @@ class Usuario extends ActiveRecord {
         if(strlen($this->password) < 8)
             self::$errores['password'] = 'La contraseña debe tener al menos 8 caracteres';  
         return self::$errores;
+    }
+
+    public function validarDatosLogin(): array {
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) 
+            self::$errores['email'] = 'El email debe ser valido'; 
+        
+        if(strlen($this->password) < 8) 
+            self::$errores['password'] = 'La contraseña debe tener al menos 8 caracteres'; 
+        return self::$errores;
+    }
+
+    public function comprobarAcceso(string $password): bool {
+        return $this->getConfirmado() && 
+        password_verify($password, $this->getPassword());
     }
 
     public function hashPassword() {
