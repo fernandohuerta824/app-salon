@@ -2,6 +2,7 @@
 
 require_once '../utils/app.php';
 
+use Controller\CitaController;
 use MVC\Router;
 use Controller\LoginController;
 
@@ -25,5 +26,7 @@ $router->post('/crear-cuenta', [LoginController::class, 'crearCuenta']);
 //Confirmar cuenta
 $router->get('/confirmar-cuenta', [LoginController::class, 'confirmarCuenta']);
 
+//Area privada
+$router->get('/cita', [CitaController::class, 'index']);
 
 $router->comprobarRutas();

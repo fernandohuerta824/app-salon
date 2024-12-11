@@ -19,3 +19,11 @@ function debug($variable) {
 function s($html): string {
     return htmlspecialchars($html);
 }
+
+function redireccionarRol() {
+    if($_SESSION['admin']){
+        header('Location: /admin');
+    } else {
+        header('Location: /cita');
+    }
+}

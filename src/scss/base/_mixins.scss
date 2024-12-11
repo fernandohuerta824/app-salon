@@ -38,8 +38,13 @@
     @include tablet {
         width: auto;
     }
+    &.ocultar {
+        visibility: hidden;
+        opacity: 0;
+
+    }
     &:hover {
-        background-color: darken( $bgColor, 10% );
+        background-color: darken( $bgColor, 10);
         cursor: pointer;
     }
 }

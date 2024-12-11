@@ -29,6 +29,12 @@
         @include m.tablet { 
             flex: 1;
         } 
+
+        &:disabled {
+            background-color: lighten(v.$negro, 30);
+            color: v.$blanco;
+            cursor: not-allowed;
+        }
     }
 }
 .alerta {
