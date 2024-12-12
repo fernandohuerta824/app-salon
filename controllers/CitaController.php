@@ -6,9 +6,9 @@ use MVC\Router;
 
 class CitaController {
     
-
     public static function index(Router $router) {
         session_start();
+        
         if(!$_SESSION['login'])
             return header('Location: /');
 

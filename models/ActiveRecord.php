@@ -14,8 +14,8 @@ abstract class ActiveRecord {
 
     protected static array $errores = [];
 
-    protected int $id;
-    protected Imagen $imagen;
+    public int $id;
+    public Imagen $imagen;
  
     public static function setDB(mysqli $db) {
         self::$db = $db;
@@ -115,7 +115,7 @@ abstract class ActiveRecord {
         return static::$errores;
     }   
 
-    public function todos(): array {
+    public static function todos(): array {
         $query = "SELECT * FROM " . static::$tabla;
 
         return self::consultar($query);

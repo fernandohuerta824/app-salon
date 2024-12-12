@@ -1,3 +1,6 @@
+<?php
+    date_default_timezone_set('America/Mexico_City');
+?>
 <div id="app">
     <nav class="tabs">
         <button class="actual" type="button" data-paso="1">Servicios</button>
@@ -9,7 +12,7 @@
     <div id="paso-1" class="seccion mostrar">
         <h2>Servicios</h2>
         <p class="text-center">Elige tus servicios a continuacion</p>
-        <div id="servicios" class="listados-servicios">
+        <div id="servicios" class="listado-servicios">
 
         </div>
     </div>
@@ -36,11 +39,12 @@
                     type="date"
                     id="fecha"
                     name="fecha"
+                    min="<?php echo date('Y-m-d', strtotime('+1 day')) ?>"
                 >
             </div>
 
             <div class="campo">
-                <label for="time">Hora: </label>
+                <label for="hora">Hora: </label>
                 <input 
                     type="time"
                     id="hora"
@@ -54,6 +58,9 @@
         <h2>Resumen</h2>
         <p class="text-center">Verifica que la informacion sea correcta</p>
 
+        <div class="resumen-datos"> 
+
+        </div>
     </div>
 
 
