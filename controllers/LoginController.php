@@ -57,7 +57,9 @@ class LoginController {
         if(!$_SESSION['login']) {
             return redireccionarRol();
         }
-        $router->render('', ['titulo' => 'Logout']);
+        $_SESSION = [];
+        session_destroy();
+        header('Location: /');
     }
 
     public static function olvide(Router $router) {

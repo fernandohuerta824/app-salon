@@ -27,3 +27,16 @@
     padding: 3rem 0;
     margin: 0 auto;
 }
+
+.barra {
+    margin-bottom: 6rem;
+    @include m.tablet { 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    } 
+    .boton {
+        @include m.boton(v.$rojo, v.$blanco);
+        margin: 0;
+    }
+}

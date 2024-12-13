@@ -1,6 +1,12 @@
 <?php
     date_default_timezone_set('America/Mexico_City');
 ?>
+
+<div class="barra">
+    <p>Hola: <?php echo $nombre ?></p>
+    <a href="/logout" class="boton">Cerrar Sesion</a>
+</div>
+
 <div id="app">
     <nav class="tabs">
         <button class="actual" type="button" data-paso="1">Servicios</button>
