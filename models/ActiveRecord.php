@@ -21,7 +21,7 @@ abstract class ActiveRecord {
         self::$db = $db;
     }
     
-    public function guardar(): mysqli|bool {
+    public function guardar() {
         if(!empty(static::$errores)) 
             return false;
         $atributos = $this->sanitizarAtributos();
@@ -43,7 +43,9 @@ abstract class ActiveRecord {
             $query = "INSERT INTO " . static::$tabla . " ($columnas) VALUES ('$valores')";
         }
 
-        return self::$db->query($query);
+        self::$db->query($query);
+        
+        return self::$db->insert_id ?? false;
     }
 
     private function sanitizarAtributos(): array {

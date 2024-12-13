@@ -5,7 +5,9 @@ const app = () => {
         hora: '',
         servicios: []
     }
-    
+    const fechaInput = document.querySelector('input#fecha');
+    const horaInput  = document.querySelector('input#hora');
+
     const paginacion = () => {
         const tabs = document.querySelector('.tabs');
         const paginacion = document.querySelector('.paginacion');
@@ -56,8 +58,52 @@ const app = () => {
             }
         }
 
-        const reservarCita = () => {
-            console.log('Reservar Cita');
+        const mensajeResumen = (data, resumenDatos, tipo) => {
+            const p = document.createElement('P');
+            p.classList.add('mensaje', tipo);
+            p.textContent = data.data[tipo];
+            const mensajeAnterior = document.querySelector(`p.mensaje.${tipo}`);
+
+            if(mensajeAnterior)
+                    mensajeAnterior.remove();
+            resumenDatos.insertAdjacentElement('beforeend', p);
+            setTimeout(() => p.remove(), 5000);
+        }
+
+        const reservarCita = async () => {
+            const resumenDatos = document.querySelector('.resumen-datos');
+            try {
+                const JSONdata = JSON.stringify(cita);
+                
+                const result = await fetch('http://192.168.100.188:3000/api/citas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSONdata
+                })
+                const data = await result.json();
+                
+                if(result.status !== 201) 
+                    return mensajeResumen(data, resumenDatos, 'error');
+
+                const servicios = document.querySelectorAll('.servicio');
+                servicios.forEach(s => {
+                    s.classList.remove('seleccionado')
+                })
+
+                fechaInput.value = '';
+                horaInput.value = '';
+
+                resumenDatos.innerHTML = '';
+                mensajeResumen(data, resumenDatos, 'exito');
+                cita.fecha = '';
+                cita.hora = '';
+                cita.servicios = [];
+                localStorage.setItem('cita', JSON.stringify(cita));
+            } catch (error) {
+                mensajeResumen({data: {error: 'Algo salio mal, intentelo despues'}}, resumenDatos, 'error');
+            }
         }
 
         const mostrarResumen = () => {
@@ -121,7 +167,6 @@ const app = () => {
             resumen.appendChild(botonReservar);
         }
 
-        
         const cambiarSeccion = pasoTab => {
             if(pasoTab < paginaInicial) paso = paginaInicial;
             else if(pasoTab > paginaFinal) paso = paginaFinal;
@@ -224,8 +269,7 @@ const app = () => {
     }
 
     const informacionCita = () => {
-        const fechaInput = document.querySelector('input#fecha');
-        const horaInput  = document.querySelector('input#hora');
+        
 
         fechaInput.value = cita.fecha;
         horaInput.value = cita.hora;
