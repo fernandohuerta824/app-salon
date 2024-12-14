@@ -252,7 +252,7 @@ const app = () => {
                 const url = '/api/servicios';
                 console.log(url);
                 const result = await fetch(url);
-                
+                console.log(result);
                 if(result.status !== 200) {
                     return;
                 }
@@ -261,7 +261,7 @@ const app = () => {
     
                 motrarServicios(servicios);
             } catch(error) {
-    
+                console.log(error);
             }
         }
     
