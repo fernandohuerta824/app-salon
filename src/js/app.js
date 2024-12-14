@@ -250,9 +250,7 @@ const app = () => {
         const consultarServicios = async () => {
             try {
                 const url = '/api/servicios';
-                console.log(url);
                 const result = await fetch(url);
-                console.log(result);
                 if(result.status !== 200) {
                     return;
                 }

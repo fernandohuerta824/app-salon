@@ -28,6 +28,7 @@
     margin: 0 auto;
 
     @include m.desktop { 
+        overflow-x: hidden;
         overflow-y: auto;
     } 
 }
