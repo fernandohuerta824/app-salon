@@ -20,7 +20,7 @@ class Router {
     }
 
     public function comprobarRutas() {
-        $url = $_SERVER['PATH_INFO'] ?? '/';
+        $url = strtok($_SERVER['REQUEST_URI'], '?') ?? '/';
         $metodo = $_SERVER['REQUEST_METHOD'];
 
         if($metodo === 'GET') 

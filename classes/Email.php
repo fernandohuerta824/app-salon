@@ -18,11 +18,11 @@ class Email {
     private function setDatosEmail(string $asunto, string $contenido) {
         $phpmailer = new PHPMailer();
         $phpmailer->isSMTP();
-        $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
+        $phpmailer->Host = $_ENV['EMAIL_HOST'];
         $phpmailer->SMTPAuth = true;
-        $phpmailer->Port = 2525;
-        $phpmailer->Username = 'fb8d91bbddb425';
-        $phpmailer->Password = 'b780d3b97ba586';
+        $phpmailer->Port = $_ENV['EMAIL_PORT'];
+        $phpmailer->Username = $_ENV['EMAIL_USER'];
+        $phpmailer->Password = $_ENV['EMAIL_PASSWORD'];
 
         $phpmailer->setFrom('appsalonbelleza@gmail.com');
         $phpmailer->addAddress($this->email, $this->nombre);
@@ -166,7 +166,7 @@ class Email {
                     <div class='email-body'>
                         Has solicitado recuperar tu contraseña en AppSalon. Para hacerlo, por favor presiona el siguiente enlace:
                         <br>
-                        <a href='http://192.168.100.188:3000/recuperar?token=$this->token' class='email-link'>Recuperar Contraseña</a>
+                        <a href='". $_ENV['APP_URL'] ."/recuperar?token=$this->token' class='email-link'>Recuperar Contraseña</a>
                         <p>Si tú no solicitaste esto, puedes ignorar este mensaje.</p>
                     </div>
                     <div class='email-footer'>

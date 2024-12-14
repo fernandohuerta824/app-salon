@@ -74,8 +74,8 @@ const app = () => {
             const resumenDatos = document.querySelector('.resumen-datos');
             try {
                 const JSONdata = JSON.stringify(cita);
-                
-                const result = await fetch('http://192.168.100.188:3000/api/citas', {
+            
+                const result = await fetch(`${location.origin}/api/citas`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -249,7 +249,7 @@ const app = () => {
     
         const consultarServicios = async () => {
             try {
-                const url = 'http://192.168.100.188:3000/api/servicios';
+                const url = `${location.origin}/api/servicios`;
     
                 const result = await fetch(url);
                 
