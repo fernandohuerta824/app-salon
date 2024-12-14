@@ -129,6 +129,10 @@ abstract class ActiveRecord {
         return self::consultar($query);
     }
 
+    public static function SQL(string $consulta): array {
+        return self::consultar($consulta);
+    }
+
     public static function where(string $columna, string $valor): ActiveRecord|null {
         $valorQuery = self::$db->real_escape_string($valor);
         $query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valorQuery' LIMIT 1";
@@ -147,7 +151,11 @@ abstract class ActiveRecord {
             if($key === 'id')
                 continue;
             if(property_exists($this, $key) && !is_null($value))
-                $this->$key = $value;
+                if(gettype($this->$key) === 'integer' || gettype($this->$key) === 'double')
+                    $this->$key = !$value ?  0 : $value;
+                else
+                    $this->$key = $value;
+
         }
     }
 

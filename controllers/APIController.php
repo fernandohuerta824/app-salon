@@ -64,4 +64,18 @@ class APIController {
         }
         
     }
+
+    public static function eliminar() {
+        $id = intval($_POST['id'] )?? 0; 
+        session_start();
+        if(!$_SESSION['login'])
+            return header('Location: /');
+
+        if(!$_SESSION['admin'])
+            return header('Location: /');
+        $cita = Cita::encontrarPorID($id);
+        if($cita)
+            $cita->borrar();
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
 }

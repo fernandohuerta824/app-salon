@@ -2,10 +2,8 @@
     date_default_timezone_set('America/Mexico_City');
 ?>
 
-<div class="barra">
-    <p>Hola: <?php echo $nombre ?></p>
-    <a href="/logout" class="boton">Cerrar Sesion</a>
-</div>
+<?php include __DIR__ . '/../template/barra.php' ?>
+
 
 <div id="app">
     <nav class="tabs">

@@ -1,7 +1,7 @@
 <?php 
 
-
 namespace Model;
+date_default_timezone_set('America/Mexico_City');
 use DateTime;
 class Cita extends ActiveRecord{
     protected static string $tabla = 'citas';
