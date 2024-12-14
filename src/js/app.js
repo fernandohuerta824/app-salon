@@ -75,7 +75,7 @@ const app = () => {
             try {
                 const JSONdata = JSON.stringify(cita);
             
-                const result = await fetch(`${location.origin}/api/citas`, {
+                const result = await fetch('/api/citas', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -249,8 +249,8 @@ const app = () => {
     
         const consultarServicios = async () => {
             try {
-                const url = `${location.origin}/api/servicios`;
-    
+                const url = '/api/servicios';
+                console.log(url);
                 const result = await fetch(url);
                 
                 if(result.status !== 200) {

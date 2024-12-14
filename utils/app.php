@@ -1,7 +1,7 @@
 <?php
 
 use Model\ActiveRecord as ActiveRecord;
-require __DIR__ . '/../vendor/autoload.php';
+require '../vendor/autoload.php';
 require 'config/database.php';
 require 'funciones.php';
 $doten = Dotenv\Dotenv::createImmutable(__DIR__);
